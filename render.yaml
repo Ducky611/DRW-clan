@@ -1,0 +1,10 @@
+services:
+  - type: worker
+    name: ticket-bot
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: python ticket_bot.py
+    envVars:
+      - key: DISCORD_TOKEN
+        sync: false
