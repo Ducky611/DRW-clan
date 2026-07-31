@@ -19,9 +19,15 @@ import discord
 
 # ============ EDIT THESE ============
 TICKET_PREFIX = "ticket-"   # Ticket Tool channels start with this (change if you customized the name format)
-WELCOME_MESSAGE = "Hey {user}! Please provide a image like the example one below!  Staff will be with u shortly!"
-IMAGE_PATH = "Example.png"  # image file committed in the repo, same folder as this script
+WELCOME_MESSAGE = "Hey {user}! Thanks for opening a ticket — describe your issue and support will be with you shortly. 🎫"
+IMAGE_PATH = "welcome.png"  # image file committed in the repo, same folder as this script
 DELAY_SECONDS = 2           # small wait so Ticket Tool finishes posting its own panel first
+
+# Tickets created in these categories are IGNORED (no welcome message)
+IGNORED_CATEGORY_IDS = {
+    1529126664674607203,
+    1529668023982751794,
+}
 # ====================================
 
 
@@ -88,6 +94,9 @@ async def on_guild_channel_create(channel):
         return
     if not channel.name.lower().startswith(TICKET_PREFIX.lower()):
         return
+    if channel.category_id in IGNORED_CATEGORY_IDS:
+        print(f"⏭️ Skipping #{channel.name} — ignored category.")
+        return
 
     # Give Ticket Tool a moment to set permissions + post its own message
     await asyncio.sleep(DELAY_SECONDS)
@@ -97,6 +106,11 @@ async def on_guild_channel_create(channel):
         channel = await client.fetch_channel(channel.id)
     except discord.HTTPException:
         pass
+
+    # Check again after re-fetch, in case Ticket Tool moved it into an ignored category
+    if channel.category_id in IGNORED_CATEGORY_IDS:
+        print(f"⏭️ Skipping #{channel.name} — ignored category.")
+        return
 
     # Find who opened the ticket (Ticket Tool adds them as a member overwrite)
     opener = None
