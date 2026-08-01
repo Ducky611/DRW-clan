@@ -19,8 +19,8 @@ import discord
 
 # ============ EDIT THESE ============
 TICKET_PREFIX = "ticket-"   # Ticket Tool channels start with this (change if you customized the name format)
-WELCOME_MESSAGE = "Hey {user}! Thanks for opening a ticket — describe your issue and support will be with you shortly. 🎫"
-IMAGE_PATH = "welcome.png"  # image file committed in the repo, same folder as this script
+WELCOME_MESSAGE = "Hey {user}! Please send a image  of your stats! Staff will be with you shortly!"
+IMAGE_PATH = "Example.png"  # image file committed in the repo, same folder as this script
 DELAY_SECONDS = 2           # small wait so Ticket Tool finishes posting its own panel first
 
 # Tickets created in these categories are IGNORED (no welcome message)
